@@ -5,6 +5,7 @@
     this._s_date = '#start_date';
     this._e_date = '#end_date';
     this._link = '#link';
+    this._password = '#password';
     this._errormsg_ = 'An error occurred shortening that link, url format invalid. <br /> ' +
       'Must be in format http(s)://weburl.com or http(s)://www.weburl.com';
   };
@@ -14,6 +15,7 @@
     this._start_date_ = $(this._s_date).val();
     this._end_date_ = $(this._e_date).val();
     this._url_ = $(this._link);
+    this._password_ = $(this._password);
     if (!this.check(this._url_.val())) {
       return this.alert(this._errormsg_, true);
     }
@@ -21,7 +23,7 @@
        c_new = true;
     }
 
-    this.request(this._url_.val(), this._start_date_, this._end_date_, c_new);
+    this.request(this._password_.val(), this._url_.val(), this._start_date_, this._end_date_, c_new);
   };
 
   _nus.prototype.check = function (s) {
@@ -39,9 +41,9 @@
       + '</div>').insertBefore(this._form_);
   };
 
-  _nus.prototype.request = function (url, s_date, e_date, cNew) {
+  _nus.prototype.request = function (password, url, s_date, e_date, cNew) {
     var self = this;
-    $.post(self._api_, { long_url: url, start_date: s_date, end_date: e_date, c_new: cNew }, function (data) {
+    $.post(self._api_, { password: password, long_url: url, start_date: s_date, end_date: e_date, c_new: cNew }, function (data) {
       if (data.hasOwnProperty('status_code') && data.hasOwnProperty('status_txt')) {
         if (parseInt(data.status_code) == 200) {
 
